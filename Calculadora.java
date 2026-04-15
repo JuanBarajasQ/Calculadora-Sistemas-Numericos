@@ -1,3 +1,5 @@
+
+
 /**
  * 
  * @author Juan Barajas 1152455 y Bryan Gelves 1152500
@@ -8,7 +10,9 @@ public class Calculadora {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println(convertirBinOctDecimal(110010, 2));    
+        //System.out.println(convertirBinOctDecimal(110010, 2));    
+        //System.out.println(convertirDecimalBinOct(95, 2));
+        //System.out.println(convertirDecHex(556));
     }
     
     public static long operaciones(long num1, long num2, String operando){
@@ -26,8 +30,18 @@ public class Calculadora {
         }
         return resultado;
     }
+
+    public static long convertirDecimalBinOct(long numero, long base){
+        long resultado = 0;
+        int exponente;
+        for(exponente = 0; numero >= base; exponente++, numero/=base){
+            resultado += (numero % base) * (Math.pow(10, exponente)); 
+        }
+        resultado += numero * Math.pow(10, exponente);
+        return resultado;
+    }
     
-    public static long convertirHexadecimal(String numero){
+    public static long convertirHexDecimal(String numero){
         String hexa = numero;
         long resultado = 0;
 
@@ -48,7 +62,35 @@ public class Calculadora {
         return resultado;
     }
 
+    public static String convertirDecHex(long numero){
+        String resultado = "";
+        char letra;
+        String valor = "";
+        while(numero >= 16){
+            int digito = (int) numero % 16;
+            valor = Integer.toString(digito);
+            if(digito >= 10){
+                letra = (char) (55 + digito);
+                valor = Character.toString(letra);
+            }
+            resultado += valor; 
+            numero /= 16;
+        }
+        if(numero >= 10){
+            letra = (char) (55 + numero);
+            valor = Character.toString(letra);
+        }
+        resultado += valor;
+        resultado = invertirString(resultado);
+        return resultado;
+    }
 
-
+    public static String invertirString(String s){
+        String resultado = "";
+        for (int i = s.length() - 1; i >= 0; i--) {
+            resultado += s.charAt(i);
+        }
+        return resultado;
+    }
 
 }

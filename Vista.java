@@ -20,11 +20,12 @@ public class Vista {
 
         if(validar(numero1, numero2, operando, base)){
             if(base == 16){
-
+                System.out.println("Resultado: " + procesarHex(numero1, numero2, operando));
             } else{
-
+                System.out.println("Resultado: " + procesarBin0ctDec(Long.parseLong(numero1), Long.parseLong(numero2), operando, base));
             }
-
+        } else{
+            System.out.println("Los digitos ingresados de alguno de los numero no son validos en la base seleccionada");
         }
         
     }
@@ -36,7 +37,7 @@ public class Vista {
             if(base == 2){
                 return validarBinario(Long.parseLong(numero1)) && validarBinario(Long.parseLong(numero2));
             } else if(base == 8){
-                return validarOctal(Long.parseLong(numero1)) && validarBinario(Long.parseLong(numero2));
+                return validarOctal(Long.parseLong(numero1)) && validarOctal(Long.parseLong(numero2));
             } else if(base == 16){
                 return validarHexadecimal(numero1) && validarHexadecimal(numero2);
             } else if(base == 10){
@@ -61,7 +62,7 @@ public class Vista {
     public static boolean validarOctal(long numero){
         while(numero != 0){
             int digito = (int) numero % 10;
-            if(digito >= 0 && digito < 8) return false;
+            if(digito < 0 || digito > 7) return false;
             numero /= 10;
         }
         return true;
@@ -95,15 +96,18 @@ public class Vista {
             long num1Dec = c.convertirBinOctDecimal(numero1,base);
             long num2Dec = c.convertirBinOctDecimal(numero2, base);
             long resultadoDec = c.operaciones(num1Dec, num2Dec, operando);
-            //resultado = c.convertirOriginal(.....) 
+            resultado = c.convertirDecimalBinOct(resultadoDec, base);
+            return resultado;
         }
         resultado = c.operaciones(numero1, numero2, operando);
         return resultado;
     }
 
-    public static String procesarHex(){
-        return "";
+    public static String procesarHex(String numero1, String numero2, String operando){
+        long num1Dec = c.convertirHexDecimal(numero1);
+        long num2Dec = c.convertirHexDecimal(numero2);
+        long resultadoDec = c.operaciones(num1Dec, num2Dec, operando);
+        return c.convertirDecHex(resultadoDec);
     }
     
-
 }
