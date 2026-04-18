@@ -19,15 +19,18 @@ public class Vista {
         String operando = sc.next();
 
         if(validar(numero1, numero2, operando, base)){
-            if(base == 16){
-                System.out.println("Resultado: " + procesarHex(numero1, numero2, operando));
-            } else{
-                System.out.println("Resultado: " + procesarBin0ctDec(Long.parseLong(numero1), Long.parseLong(numero2), operando, base));
-            }
+            try{
+                if(base == 16){
+                    System.out.println("Resultado: " + procesarHex(numero1, numero2, operando));
+                } else{
+                    System.out.println("Resultado: " + procesarBin0ctDec(Long.parseLong(numero1), Long.parseLong(numero2), operando, base));
+                }
+            } catch(ArithmeticException e){
+                System.out.println("Error: " + e.getMessage());
+             }
         } else{
-            System.out.println("Los digitos ingresados de alguno de los numero no son validos en la base seleccionada");
+            System.out.println("Error. Valores inválidos");
         }
-        
     }
 
     public static boolean validar(String numero1, String numero2, String operando, int base){
@@ -51,15 +54,17 @@ public class Vista {
     }
 
     public static boolean validarBinario(long numero){
+        if(numero < 0) numero = Math.abs(numero);
         while(numero != 0){
             int digito = (int) numero % 10;
-            if(digito != 1 || digito != 0) return false;
+            if(digito != 1 && digito != 0) return false;
             numero /= 10;
         }
         return true;
     }
 
     public static boolean validarOctal(long numero){
+        if(numero < 0) numero = Math.abs(numero);
         while(numero != 0){
             int digito = (int) numero % 10;
             if(digito < 0 || digito > 7) return false;
@@ -81,7 +86,9 @@ public class Vista {
     public static boolean validarHexadecimal(String numero){
         for(int i= numero.length()-1; i>=0; i--){
             char digito = numero.charAt(i);
-            if((digito < 'a' && digito > 'f') && (digito < 'A' || digito > 'F') && (digito < '0' || digito > '9')) return false;
+            if((digito < 'a' || digito > 'f') && 
+            (digito < 'A' || digito > 'F') && 
+            (digito < '0' || digito > '9')) return false;
         }
         return true;
     }
